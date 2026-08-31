@@ -28,16 +28,19 @@ Instituto Alcantara/
 ├── quem-somos.html            ┐
 ├── agenda.html                │ geradas por gerar.ps1
 ├── noticias.html              │ a partir de _fonte/
-├── trabalhe-conosco.html      ┘
+├── trabalhe-conosco.html      │
+├── mosi.html                  ┘ landing do MOSI (responde em /mosi)
 │
 ├── assets/
 │   ├── css/style.css          todo o estilo do site
 │   ├── js/main.js             todos os comportamentos
 │   ├── fonts/                 Montserrat, Roboto e Anton (locais, sem Google Fonts)
+│   ├── imprensa/              release e artes em alta para a imprensa baixar
 │   └── img/                   imagens do site
 │       ├── agenda/            capas dos eventos
 │       ├── noticias/          capas das notícias
 │       ├── equipe/            diretoria e conselho fiscal
+│       ├── mosi/              artes do MOSI em versão web
 │       └── ods/               os 9 quadros de ODS
 │
 ├── _fonte/                    peças reaproveitadas das páginas internas
@@ -45,11 +48,22 @@ Instituto Alcantara/
 │   ├── rodape.html            faixa "Inspirando" + rodapé + créditos
 │   └── conteudo-*.html        só o miolo de cada página interna
 │
+├── vercel.json                faz /mosi servir mosi.html na Vercel
 ├── gerar.ps1                  monta as páginas internas a partir de _fonte/
 ├── servidor.ps1               servidor local
 └── _referencia-wordpress/     HTML original capturado do site antigo
                                (só consulta — pode apagar quando quiser)
 ```
+
+### A landing do MOSI
+
+A página do MOSI é gerada como qualquer outra: o miolo fica em
+`_fonte/conteudo-mosi.html` e a entrada dela está na lista de páginas do
+`gerar.ps1`. O estilo próprio do evento (vermelho e amarelo) está isolado no
+fim do `style.css`, no bloco marcado como MOSI, e não afeta o resto do site.
+
+Para trocar o release que a imprensa baixa, substitua os arquivos em
+`assets/imprensa/` mantendo os mesmos nomes. Nada mais precisa ser alterado.
 
 ---
 
@@ -94,10 +108,13 @@ Tudo está no topo de `assets/css/style.css`, no bloco `:root`:
 --raio-botao: 100px 10px;  /* o canto assimétrico dos botões */
 
 /* larguras medidas no site original */
---largura-conteudo: 1140px;  /* seções de conteúdo */
---largura-header:   1240px;  /* topo e menu */
---largura-rodape:   1280px;  /* rodapé */
+--largura-conteudo: 1400px;  /* seções de conteúdo e rodapé */
+--largura-topbar:   1540px;  /* a barra preta do topo é mais larga */
+--largura-rodape:   1400px;
 ```
+
+O cabeçalho não usa container: ele ocupa a largura toda com `padding: 2% 4%` e
+distribui logo, menu e botões com `space-around`, igual ao original.
 
 Trocar `--amarelo` muda a cor em todo o site de uma vez.
 

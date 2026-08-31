@@ -32,6 +32,8 @@ $tipos = @{
   '.woff2' = 'font/woff2'
   '.woff'  = 'font/woff'
   '.txt'   = 'text/plain; charset=utf-8'
+  '.pdf'   = 'application/pdf'
+  '.docx'  = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 }
 
 $listener = New-Object System.Net.HttpListener

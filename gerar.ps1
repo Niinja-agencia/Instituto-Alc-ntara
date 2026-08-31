@@ -32,6 +32,7 @@ $paginas = @(
   @{ arquivo = 'agenda.html';           fonte = 'conteudo-agenda.html';           ativo = 'agenda' }
   @{ arquivo = 'noticias.html';         fonte = 'conteudo-noticias.html';         ativo = 'noticias' }
   @{ arquivo = 'trabalhe-conosco.html'; fonte = 'conteudo-trabalhe-conosco.html'; ativo = 'trabalhe' }
+  @{ arquivo = 'mosi.html';             fonte = 'conteudo-mosi.html';             ativo = 'mosi' }
 )
 
 foreach ($p in $paginas) {

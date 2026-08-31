@@ -153,9 +153,20 @@
   }
 
   /* ------------------------------- Carrossel de parceiros (duplicação) ---- */
+  /* `innerHTML += innerHTML` reconstruía todas as imagens do zero: as que já
+     tinham baixado voltavam a zero e as cópias, fora da área visível da
+     trilha, nunca disparavam o `loading=lazy`. Clonar os nós preserva o que já
+     carregou, e as cópias entram com carregamento imediato. */
   document.querySelectorAll('.carrossel__trilha').forEach(function (trilha) {
     if (trilha.dataset.duplicado === 'sim') return;
-    trilha.innerHTML += trilha.innerHTML;
+
+    Array.prototype.slice.call(trilha.children).forEach(function (item) {
+      var copia = item.cloneNode(true);
+      copia.setAttribute('aria-hidden', 'true');
+      if (copia.tagName === 'IMG') { copia.alt = ''; copia.loading = 'eager'; }
+      trilha.appendChild(copia);
+    });
+
     trilha.dataset.duplicado = 'sim';
   });
 

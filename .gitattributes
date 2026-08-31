@@ -1,0 +1,17 @@
+# Normaliza as quebras de linha dos arquivos de texto...
+* text=auto eol=lf
+
+# ...e garante que imagens e fontes sejam tratadas como binário. Sem isto o
+# Git pode "consertar" quebras de linha dentro de um JPEG e corromper o arquivo.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.woff binary
+*.woff2 binary
+*.pdf  binary
+
+# Scripts do PowerShell precisam de CRLF no Windows.
+*.ps1 text eol=crlf

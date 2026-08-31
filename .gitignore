@@ -1,0 +1,14 @@
+# Capturas do site WordPress antigo, usadas só como referência durante a
+# reconstrução. Ficam de fora do repositório porque o HTML salvo carrega
+# nonces de sessão do WordPress e não faz parte do site em si.
+_referencia-wordpress/
+
+# Sistema operacional
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp

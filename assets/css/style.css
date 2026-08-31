@@ -632,14 +632,18 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 }
 
 /* ================================================== YOUTUBE + INSTAGRAM === */
-.redes { background: var(--branco); padding: 70px 0 90px; }
-.redes__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
-.redes__cabecalho { text-align: center; margin-bottom: 34px; }
-.redes__cabecalho h2 { font-size: 30px; font-weight: 600; line-height: 30px; color: var(--preto); margin-bottom: 6px; }
+/* Duas colunas de 700px encostadas, como no original: nada de gap entre elas,
+   o respiro vem do padding interno de cada coluna. */
+.redes { background: var(--branco); padding: 100px 0 50px; }
+.redes__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.redes__grid > div { padding: 10px 0 70px; }
+.redes__cabecalho { text-align: center; margin-bottom: 20px; }
+.redes__cabecalho h2 { font-size: 30px; font-weight: 600; line-height: 30px; color: var(--preto); margin-bottom: 2px; }
 .redes__cabecalho a { font-size: 16px; text-decoration: underline; transition: var(--transicao); }
 .redes__cabecalho a:hover { color: var(--amarelo-escuro); }
 
-.videos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+/* 30px na horizontal deixa cada vídeo com os 335px do original. */
+.videos { display: grid; grid-template-columns: 1fr 1fr; gap: 11px 30px; }
 .video {
   position: relative;
   display: block;
@@ -660,8 +664,10 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 }
 .video:hover::after { border-left-color: var(--amarelo); }
 
-.instagram__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.instagram__item { aspect-ratio: 1/1; background: var(--cinza-claro); display: grid; place-items: center; color: #9b9b9b; }
+/* A altura das linhas acompanha a galeria de vídeos ao lado, para as duas
+   colunas terminarem juntas como no original. */
+.instagram__grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 188px; gap: 11px 30px; }
+.instagram__item { background: var(--cinza-claro); display: grid; place-items: center; color: #9b9b9b; }
 .instagram__item svg { width: 34px; height: 34px; }
 
 /* ============================================================== DOAÇÕES === */
@@ -713,7 +719,8 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
    texto começa a 4% da borda esquerda da tela, não dentro de um container. */
 .inspirando { background: var(--creme); border-top: 1px solid var(--borda); }
 .inspirando__grid { display: grid; grid-template-columns: 61.2% 38.8%; align-items: center; }
-.inspirando__texto { padding: 119px 0 118px 4%; }
+/* O recuo é 4% da largura da TELA, não da coluna: por isso vw e não %. */
+.inspirando__texto { padding: 119px 0 118px 4vw; }
 .inspirando__foto { align-self: stretch; min-height: 600px; background: url('../img/rodape-foto.jpg') center 20%/cover no-repeat; }
 
 .inspirando__texto h2 {
@@ -721,6 +728,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   font-weight: 400;
   font-size: 65px;
   line-height: 97.5px;
+  letter-spacing: 4.25px;
   text-transform: uppercase;
   color: var(--preto);
   margin: 0;
@@ -738,6 +746,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   font-size: 30px;
   font-weight: 300;
   line-height: 39px;
+  letter-spacing: 2.5px;
 }
 .inspirando__texto .marca-preta--fim { margin: 20px 0 0; }
 /* A margem negativa desconta os 8px que o filete acrescenta à caixa da linha,
@@ -752,13 +761,14 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .inspirando__frase { margin-top: 42px; font-size: 19px; line-height: 1.6; color: var(--preto); max-width: 340px; }
 
 /* =============================================================== RODAPÉ === */
-.rodape { background: var(--branco); padding: 70px 0 60px; }
+.rodape { background: var(--branco); padding: 98px 0 59px; }
+/* Quatro colunas iguais de 350px, sem espaço entre elas: é assim no original. */
 .rodape__grid {
   display: grid;
-  grid-template-columns: 1.1fr 1fr 1fr 1.2fr;
-  gap: 40px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
 }
-.rodape__logo img { width: 260px; margin-bottom: 20px; }
+.rodape__logo img { width: 263px; margin-bottom: 20px; }
 .rodape__slogan { font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--preto); }
 .rodape h4 {
   font-size: 18px;
@@ -767,16 +777,20 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--preto);
-  margin-bottom: 22px;
+  margin-bottom: 10px;
 }
-.rodape p, .rodape li { font-size: 16px; font-weight: 300; line-height: 1.7; color: var(--preto); }
+/* No original todo o miolo do rodapé usa entrelinha 1.6 e 10px entre blocos. */
+.rodape p, .rodape li { font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--preto); }
+.rodape p { margin-bottom: 10px; }
+.rodape ul { display: grid; gap: 2.5px; }
 .rodape li a { transition: var(--transicao); }
 .rodape li a:hover { color: var(--amarelo-escuro); padding-left: 4px; }
 
-.newsletter { display: flex; flex-direction: column; gap: 18px; margin-top: 12px; }
+/* 25px e não 15px porque esta margem colapsa com a do parágrafo acima. */
+.newsletter { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
 .newsletter input {
   width: 100%;
-  padding: 12px 4px;
+  padding: 11px 4px;
   font-family: inherit;
   font-size: 16px;
   color: var(--preto);
@@ -790,8 +804,9 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .newsletter button {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
   align-self: flex-start;
+  padding: 11px 0;
   font-size: 14px;
   line-height: 18.2px;
   font-weight: 300;
@@ -801,7 +816,8 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   border-radius: 3px;
   transition: var(--transicao);
 }
-.newsletter button:hover { gap: 20px; color: var(--amarelo-escuro); }
+.newsletter button svg { width: 14px; height: 14px; }
+.newsletter button:hover { gap: 14px; color: var(--amarelo-escuro); }
 
 .creditos {
   background: var(--amarelo);
@@ -813,7 +829,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   color: var(--preto);
 }
 .creditos strong { font-weight: 700; }
-.creditos img { width: 100px; margin: 0 auto; }
+.creditos img { width: 60px; margin: 0 auto; }
 
 /* ======================================================= WHATSAPP FLUTUA == */
 .whatsapp {
@@ -930,6 +946,14 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .talentos-cursos__grid,
   .redes__grid,
   .inspirando__grid { grid-template-columns: 1fr; gap: 40px; }
+  /* Empilhado, a altura fixa das linhas do Instagram deixaria os quadros
+     estreitos e compridos; aqui eles voltam a ser quadrados. */
+  .redes { padding: 60px 0; }
+  .redes__grid > div { padding: 0; }
+  .instagram__grid { grid-auto-rows: auto; gap: 10px; }
+  .instagram__item { aspect-ratio: 1 / 1; }
+  .videos { gap: 14px; }
+  .rodape__grid { grid-template-columns: 1fr 1fr; gap: 44px; }
   .inspirando__texto { padding: 70px 20px 40px; }
   .inspirando__foto { min-height: 380px; }
   .rodape__grid { grid-template-columns: 1fr 1fr; gap: 44px; }

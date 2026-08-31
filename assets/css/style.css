@@ -42,11 +42,15 @@
   --fonte: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --fonte-display: 'Anton', 'Montserrat', sans-serif;
 
-  /* O original usa `min(100%, 1400px)` em todas as seções de conteúdo. A barra
-     de topo tem um container próprio, e o cabeçalho é fluido (padding de 4%). */
-  --largura-conteudo: 1400px;
-  --largura-topbar: 1540px;
-  --largura-rodape: 1400px;
+  /* Uma largura só para o site inteiro: barra de topo, cabeçalho, todas as
+     seções, faixas e rodapé. O valor nasce da posição da logo (231px da borda
+     numa tela de 2195px), para que tudo comece na mesma coluna que ela. */
+  --largura-conteudo: 1720px;
+
+  /* Distância da borda até o container. Usada pelos blocos que não podem ficar
+     dentro do container porque a imagem precisa sangrar até a borda (hero e
+     faixa Inspirando). Aplicar sempre em quem tem a largura da SEÇÃO. */
+  --margem-lateral: max(5%, calc((100% - var(--largura-conteudo)) / 2));
 
   /* Assinatura visual do site: cantos assimétricos nos botões */
   --raio-botao: 100px 10px;
@@ -79,25 +83,17 @@ a { color: inherit; text-decoration: none; }
 ul { margin: 0; padding: 0; list-style: none; }
 button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 
-/* `min()` dá a largura exata no desktop e uma folga de 20px nas laterais
-   assim que a tela fica menor que o container. */
+/* `min()` dá a largura exata no desktop e, em telas menores que o container,
+   mantém 5% de respiro de cada lado em vez de colar nas bordas. A conta é a
+   mesma de `--margem-lateral`, para os dois nunca discordarem. */
 .container {
-  width: min(100% - 40px, var(--largura-conteudo));
+  width: min(90%, var(--largura-conteudo));
   margin-inline: auto;
 }
-.topbar .container { width: min(100% - 40px, var(--largura-topbar)); }
 
-/* O cabeçalho do original não é um container centralizado: ele ocupa a largura
-   toda com 4% de respiro lateral e distribui logo, menu e botões com
-   `space-around`. É isso que põe o logo em x214 numa tela de 2195px. */
-.header .container {
-  width: 100%;
-  max-width: none;
-  padding: 2% 4%;
-}
-
-.rodape .container,
-.creditos .container { width: min(100% - 40px, var(--largura-rodape)); }
+/* O cabeçalho usa o mesmo container das seções: é isso que alinha a logo com
+   os títulos, os cards e o rodapé. O respiro vertical continua percentual. */
+.header .container { padding-block: 2%; }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px;
@@ -220,11 +216,13 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
   border-bottom-color: var(--borda);
 }
+/* space-between: a logo encosta na borda esquerda do container e os botões na
+   direita, exatamente como o conteúdo das seções abaixo. */
 .header .container {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  gap: 0;
+  justify-content: space-between;
+  gap: 24px;
 }
 .header__logo img { width: 190px; }
 
@@ -281,12 +279,12 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .hero__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding-left: 5%;
+  padding-left: var(--margem-lateral);
 }
 .hero__conteudo {
   align-self: center;
-  max-width: 829px;
-  padding: 115px 0 124px 104px;
+  max-width: 780px;
+  padding: 115px 60px 124px 0;
 }
 .hero__marca { width: 363px; }
 .hero__foto {
@@ -636,7 +634,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
    o respiro vem do padding interno de cada coluna. */
 .redes { background: var(--branco); padding: 100px 0 50px; }
 .redes__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-.redes__grid > div { padding: 10px 0 70px; }
+.redes__grid > div { padding: 10px 0 30px; }
 .redes__cabecalho { text-align: center; margin-bottom: 20px; }
 .redes__cabecalho h2 { font-size: 30px; font-weight: 600; line-height: 30px; color: var(--preto); margin-bottom: 2px; }
 .redes__cabecalho a { font-size: 16px; text-decoration: underline; transition: var(--transicao); }
@@ -664,16 +662,13 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 }
 .video:hover::after { border-left-color: var(--amarelo); }
 
-/* A altura das linhas acompanha a galeria de vídeos ao lado, para as duas
-   colunas terminarem juntas como no original. */
-.instagram__grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 188px; gap: 11px 30px; }
-.instagram__item { background: var(--cinza-claro); display: grid; place-items: center; color: #9b9b9b; }
+.instagram__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px 30px; }
+.instagram__item { aspect-ratio: 1 / 1; background: var(--cinza-claro); display: grid; place-items: center; color: #9b9b9b; }
 .instagram__item svg { width: 34px; height: 34px; }
 
 /* ============================================================== DOAÇÕES === */
 /* Esta seção é a mais larga do site: os cards quase encostam nas bordas. */
 .doacoes { background: var(--creme); padding: 100px 0; }
-.doacoes .container { width: min(100% - 24px, 1400px); }
 .doacoes__topo { text-align: center; margin-bottom: 124px; }
 .doacoes__topo h2 { font-size: 18px; font-weight: 600; line-height: 18px; color: var(--preto); margin-bottom: 47px; }
 .doacoes__topo p { font-size: 17px; color: var(--cinza-texto); margin: 0; }
@@ -718,9 +713,15 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 /* No original a coluna de texto é bem mais larga que a da foto (61/39) e o
    texto começa a 4% da borda esquerda da tela, não dentro de um container. */
 .inspirando { background: var(--creme); border-top: 1px solid var(--borda); }
-.inspirando__grid { display: grid; grid-template-columns: 61.2% 38.8%; align-items: center; }
-/* O recuo é 4% da largura da TELA, não da coluna: por isso vw e não %. */
-.inspirando__texto { padding: 119px 0 118px 4vw; }
+/* O recuo fica na grade (que tem a largura da seção), não na coluna, para o
+   texto começar exatamente na mesma coluna da logo. */
+.inspirando__grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  align-items: center;
+  padding-left: var(--margem-lateral);
+}
+.inspirando__texto { padding: 119px 60px 118px 0; }
 .inspirando__foto { align-self: stretch; min-height: 600px; background: url('../img/rodape-foto.jpg') center 20%/cover no-repeat; }
 
 .inspirando__texto h2 {
@@ -903,7 +904,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 }
 
 @media (max-width: 1024px) {
-  .header .container { padding: 20px 4%; }
+  .header .container { padding-block: 20px; }
   .hamburguer { display: flex; }
   .nav {
     position: fixed;
@@ -938,23 +939,21 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .nav a.btn::after { display: none; }
 
   .hero__grid { grid-template-columns: 1fr; padding-left: 0; }
-  .hero__conteudo { max-width: none; padding: 60px 20px 50px; }
+  .hero__conteudo { max-width: none; padding: 60px 5% 50px; }
   .hero__foto { min-height: 340px; border-radius: 0; }
+  .inspirando__grid { padding-left: 0; }
 
   .quem-somos__grid,
   .destaques__grid,
   .talentos-cursos__grid,
   .redes__grid,
   .inspirando__grid { grid-template-columns: 1fr; gap: 40px; }
-  /* Empilhado, a altura fixa das linhas do Instagram deixaria os quadros
-     estreitos e compridos; aqui eles voltam a ser quadrados. */
   .redes { padding: 60px 0; }
   .redes__grid > div { padding: 0; }
-  .instagram__grid { grid-auto-rows: auto; gap: 10px; }
-  .instagram__item { aspect-ratio: 1 / 1; }
+  .instagram__grid { gap: 10px; }
   .videos { gap: 14px; }
   .rodape__grid { grid-template-columns: 1fr 1fr; gap: 44px; }
-  .inspirando__texto { padding: 70px 20px 40px; }
+  .inspirando__texto { padding: 70px 5% 40px; }
   .inspirando__foto { min-height: 380px; }
   .rodape__grid { grid-template-columns: 1fr 1fr; gap: 44px; }
   .grade-listagem { grid-template-columns: 1fr 1fr; }
@@ -1276,7 +1275,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 60px;
-  width: min(100% - 40px, var(--largura-conteudo));
+  width: min(90%, var(--largura-conteudo));
   margin-inline: auto;
   padding: 90px 0;
 }

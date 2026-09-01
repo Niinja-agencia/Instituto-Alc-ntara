@@ -5,7 +5,32 @@ e envia para uma planilha do Google. Enquanto o destino não estiver configurado
 página mostra um aviso no topo do formulário e orienta a pessoa a se inscrever pelo
 WhatsApp, em vez de fingir que enviou.
 
-## Ligar o envio (uma vez só)
+## Já está ligado (01/09/2026)
+
+Tudo abaixo já foi feito. Esta seção existe para você achar as peças depois.
+
+| Peça | Onde |
+|---|---|
+| Conta | agencianiinja@gmail.com |
+| Planilha | "MOSI 2026 - Inscricoes nas oficinas", aba **Inscrições** |
+| ID da planilha | `1SlgVxWA8MZfx7mlRXe6MDjCzXahbr0ko7nidoPzYfPs` |
+| Projeto do Apps Script | "MOSI 2026 - Inscricoes nas oficinas" (projeto **avulso**, não vinculado) |
+| ID do projeto | `1lM45ASzWTxA1aItoihlY6npIX0NiN-_2Wbna33dgY27Nj0epRefK1mhm` |
+| Implantação | Versão 1, App da Web, Executar como Eu, Acesso: Qualquer pessoa |
+
+**Pegadinha das várias contas.** Aquele Chrome tem 4 contas Google logadas e a da
+agência é a **terceira** (`authuser=2`). Com mais de uma conta, o caminho
+Extensões → Apps Script da planilha abre em "Página não encontrada" e o script
+vinculado não nasce. Por isso o projeto é avulso e o script abre a planilha por
+`SpreadsheetApp.openById(PLANILHA_ID)` em vez de `getActiveSpreadsheet()`.
+
+O custo dessa escolha: a autorização pede acesso a **todas as planilhas** da conta,
+e não só a este arquivo. Para reduzir o escopo seria preciso refazer como script
+vinculado, com só a conta da agência logada (ou numa janela anônima).
+
+Para abrir qualquer um dos dois, acrescente `authuser=2` na URL.
+
+## Ligar o envio numa planilha nova (passo a passo)
 
 **1. Crie a planilha**
 

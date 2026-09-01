@@ -46,11 +46,23 @@ foreach ($p in $paginas) {
   if ($m.Success) { $titulo = $m.Groups[1].Value }
   $m = [regex]::Match($conteudo, '<!--\s*descricao:\s*(.*?)\s*-->')
   if ($m.Success) { $desc = $m.Groups[1].Value }
-  $conteudo = [regex]::Replace($conteudo, '<!--\s*(titulo|descricao):.*?-->\r?\n?', '')
+
+  # Titulo e imagem de compartilhamento sao opcionais: quando a pagina nao
+  # declara, valem o titulo da propria pagina e a logo.
+  $ogTitulo = $titulo
+  $ogImagem = 'assets/img/logo.png'
+  $m = [regex]::Match($conteudo, '<!--\s*og-titulo:\s*(.*?)\s*-->')
+  if ($m.Success) { $ogTitulo = $m.Groups[1].Value }
+  $m = [regex]::Match($conteudo, '<!--\s*og-imagem:\s*(.*?)\s*-->')
+  if ($m.Success) { $ogImagem = $m.Groups[1].Value }
+
+  $conteudo = [regex]::Replace($conteudo, '<!--\s*(titulo|descricao|og-titulo|og-imagem):.*?-->\r?\n?', '')
 
   $topo = $cabecalho
   $topo = $topo.Replace('{{TITULO}}', $titulo)
   $topo = $topo.Replace('{{DESCRICAO}}', $desc)
+  $topo = $topo.Replace('{{OG_TITULO}}', $ogTitulo)
+  $topo = $topo.Replace('{{OG_IMAGEM}}', $ogImagem)
 
   if ($p.ativo -eq 'quem-somos') { $topo = $topo.Replace('{{ATIVO_QUEM_SOMOS}}', $ATIVO) }
   if ($p.ativo -eq 'agenda')     { $topo = $topo.Replace('{{ATIVO_AGENDA}}', $ATIVO) }

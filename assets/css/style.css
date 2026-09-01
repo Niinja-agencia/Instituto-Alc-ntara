@@ -62,6 +62,11 @@
 *::before,
 *::after { box-sizing: border-box; }
 
+/* Vários blocos desta folha declaram display, o que sozinho venceria o
+   display:none que o navegador dá ao atributo hidden. Esta regra garante que
+   hidden continue escondendo. */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -1257,10 +1262,57 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
    O MOSI tem identidade própria (vermelho e amarelo), então as cores dele
    ficam isoladas aqui e não vazam para o resto do site.
    ========================================================================== */
+.mosi-menu,
 .mosi-hero,
+.mosi-sobre,
 .mosi-programacao,
+.mosi-oficinas,
+.mosi-inscricao,
+.mosi-acessibilidade,
 .mosi-citacao,
 .mosi-imprensa { --mosi-vermelho: #d2241e; --mosi-amarelo: #f5a428; }
+
+/* ------------------------------------------------- Menu desta página ----- */
+/* Fica abaixo do cabeçalho do site, que também é fixo. Por isso o topo do
+   menu acompanha a altura dele em vez de ser zero. */
+.mosi-menu {
+  position: sticky;
+  top: var(--altura-cabecalho, 0px);
+  z-index: 40;
+  background: var(--preto);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.mosi-menu ul {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.mosi-menu ul::-webkit-scrollbar { display: none; }
+.mosi-menu a {
+  display: block;
+  padding: 17px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--branco);
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+}
+.mosi-menu a:hover { color: var(--mosi-amarelo); }
+.mosi-menu a[aria-current='true'] { color: var(--mosi-amarelo); border-bottom-color: var(--mosi-amarelo); }
+.mosi-menu__destaque {
+  margin-left: auto;
+  background: var(--mosi-amarelo);
+  color: var(--preto) !important;
+  border-radius: 50px 0;
+  padding-inline: 26px;
+}
+.mosi-menu__destaque:hover { background: var(--branco); }
+.mosi-menu__destaque[aria-current='true'] { border-bottom-color: transparent; }
 
 /* --------------------------------------------------------------- Hero ---- */
 .mosi-hero {
@@ -1307,13 +1359,27 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   text-transform: uppercase;
   margin: 0 0 34px;
 }
+.mosi-hero__chamada {
+  font-size: 19px;
+  line-height: 1.65;
+  max-width: 620px;
+  margin: 0 0 20px;
+}
+.mosi-hero__local {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--mosi-amarelo);
+  margin: 0 0 34px;
+}
 .mosi-hero__lema {
   font-family: var(--fonte-display);
   font-size: 34px;
   line-height: 1.2;
   text-transform: uppercase;
   color: var(--mosi-amarelo);
-  margin: 0 0 34px;
+  margin: 40px 0 0;
 }
 .mosi-hero__dados { display: grid; gap: 12px; margin-bottom: 38px; }
 .mosi-hero__dados li { font-size: 17px; line-height: 1.5; }
@@ -1371,65 +1437,80 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .mosi-cabecalho h2 { font-size: 45px; font-weight: 700; line-height: 1.15; color: var(--preto); margin-bottom: 18px; }
 .mosi-cabecalho__apoio { font-size: 18px; line-height: 1.7; color: var(--cinza-texto); margin: 0; }
 
-.mosi-dia {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 40px;
-  padding: 40px 0;
-  border-top: 2px solid var(--preto);
-}
-.mosi-dia__marca { position: sticky; top: 200px; align-self: start; }
-.mosi-dia__numero {
-  display: block;
-  font-family: var(--fonte-display);
-  font-size: 76px;
-  line-height: 0.9;
-  color: var(--mosi-vermelho, #d2241e);
-}
-/* O "a" do intervalo 14 a 16 fica menor e no meio dos dois números. */
-.mosi-dia__numero span { font-size: 30px; padding: 0 6px; color: var(--preto); }
-.mosi-dia__semana {
-  display: block;
-  margin-top: 6px;
-  font-size: 14px;
+/* Filtros: duas linhas independentes (dia e categoria) que se combinam. */
+.mosi-filtros { display: grid; gap: 14px; margin-bottom: 44px; }
+.mosi-filtros__linha { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.mosi-filtros__rotulo {
+  min-width: 84px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 1.4px;
   text-transform: uppercase;
   color: var(--cinza-texto);
 }
+.mosi-chip {
+  padding: 11px 22px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--preto);
+  background: var(--branco);
+  border: 2px solid var(--borda);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background var(--transicao), border-color var(--transicao), color var(--transicao);
+}
+.mosi-chip:hover { border-color: var(--preto); }
+.mosi-chip[aria-pressed='true'] {
+  background: var(--mosi-vermelho, #d2241e);
+  border-color: var(--mosi-vermelho, #d2241e);
+  color: var(--branco);
+}
+.mosi-filtros__contagem { margin: 4px 0 0; font-size: 15px; color: var(--cinza-texto); }
 
-.mosi-agenda { display: grid; gap: 4px; }
-.mosi-agenda li {
+.mosi-cards {
   display: grid;
-  grid-template-columns: 130px 1fr 260px;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   align-items: start;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--borda);
 }
-.mosi-agenda li:last-child { border-bottom: 0; }
-.mosi-agenda__hora {
-  font-size: 17px;
+.mosi-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  padding: 30px 32px 34px;
+  background: var(--branco);
+  border-radius: 20px 0;
+  border-top: 4px solid var(--mosi-vermelho, #d2241e);
+}
+.mosi-card__tag {
+  margin: 0;
+  font-size: 12px;
   font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
   color: var(--mosi-vermelho, #d2241e);
 }
-.mosi-agenda__item { font-size: 16px; line-height: 1.6; color: var(--cinza-texto); }
-.mosi-agenda__item a { font-weight: 600; color: var(--preto); text-decoration: underline; }
-.mosi-agenda__item a:hover { color: var(--mosi-vermelho, #d2241e); }
-.mosi-agenda__item strong {
-  display: block;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.3;
+.mosi-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
   color: var(--preto);
-  margin-bottom: 6px;
+  margin: 0;
 }
-.mosi-agenda__local {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.5;
-  color: var(--preto);
-  text-align: right;
+.mosi-card__grupo { margin: 0; font-size: 15px; font-weight: 600; color: var(--preto); }
+.mosi-card__servico { display: grid; gap: 4px; margin: 6px 0 0; }
+.mosi-card__servico li { font-size: 15px; line-height: 1.5; color: var(--cinza-texto); }
+.mosi-card__servico strong { color: var(--preto); }
+.mosi-card__texto { margin: 6px 0 0; font-size: 16px; line-height: 1.65; color: var(--cinza-texto); }
+
+.mosi-vazio {
+  margin: 0;
+  padding: 60px 0;
+  text-align: center;
+  font-size: 18px;
+  color: var(--cinza-texto);
 }
 .mosi-aviso { margin-top: 40px; font-size: 15px; color: var(--cinza-texto); }
 
@@ -1677,7 +1758,65 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .mosi-assinaturas p { font-size: 15px; line-height: 1.7; color: var(--cinza-texto); }
 .mosi-servico__arte img { width: 100%; border-radius: 12px; }
 
+/* ------------------------------------------------------ Acessibilidade --- */
+.mosi-acessibilidade { background: var(--cinza-claro); }
+.mosi-acess__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+.mosi-acess__bloco {
+  height: 100%;
+  padding: 34px 34px 38px;
+  background: var(--branco);
+  border-radius: 20px 0;
+}
+.mosi-acess__bloco h3 { font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--preto); margin: 0 0 16px; }
+.mosi-acess__bloco p { font-size: 16px; line-height: 1.65; color: var(--cinza-texto); margin: 0 0 22px; }
+.mosi-acess__controles { display: flex; flex-wrap: wrap; gap: 12px; }
+.mosi-acess__controles .btn { padding: 16px 28px; font-size: 14px; }
+.mosi-btn-vazado-escuro {
+  padding: 16px 28px;
+  font-size: 14px;
+  border: 2px solid var(--preto);
+  color: var(--preto);
+  border-radius: 50px 0;
+}
+.mosi-btn-vazado-escuro:hover { background: var(--preto); color: var(--branco); }
+/* Botão de modo ligado: o estado real fica no aria-pressed, não numa classe. */
+.mosi-acess__controles .btn[aria-pressed='true'] { background: var(--mosi-vermelho, #d2241e); color: var(--branco); }
+
+/* Modos de leitura. Ficam no <html> para valerem na página inteira e são
+   guardados no navegador do visitante pelo main.js. */
+.acess-texto { font-size: 125%; }
+.acess-contraste { --amarelo: #ffe600; --amarelo-escuro: #ffe600; }
+.acess-contraste body { background: #000; color: #fff; }
+.acess-contraste .secao,
+.acess-contraste .mosi-card,
+.acess-contraste .mosi-acess__bloco,
+.acess-contraste .mosi-oficina,
+.acess-contraste .mosi-bloco,
+.acess-contraste .mosi-download,
+.acess-contraste .mosi-opcao,
+.acess-contraste .mosi-recebido,
+.acess-contraste .mosi-chip { background: #000; color: #fff; border-color: #fff; }
+.acess-contraste h1,
+.acess-contraste h2,
+.acess-contraste h3,
+.acess-contraste h4,
+.acess-contraste p,
+.acess-contraste li,
+.acess-contraste span,
+.acess-contraste strong,
+.acess-contraste legend,
+.acess-contraste label { color: #fff !important; }
+.acess-contraste a:not(.btn) { color: #ffe600 !important; text-decoration: underline; }
+.acess-contraste .btn { background: #ffe600 !important; color: #000 !important; border-color: #ffe600; }
+.acess-contraste .mosi-chip[aria-pressed='true'] { background: #ffe600; color: #000 !important; }
+.acess-contraste input,
+.acess-contraste textarea { background: #000; color: #fff; border-color: #fff; }
+
 /* -------------------------------------------------------- Responsivo ----- */
+@media (max-width: 1200px) {
+  .mosi-cards { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 1024px) {
   .mosi-hero__grid { grid-template-columns: 1fr; gap: 44px; padding: 60px 0; }
   .mosi-hero__arte { max-width: 460px; }
@@ -1686,15 +1825,15 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .mosi-numeros { grid-template-columns: repeat(2, 1fr); }
   .mosi-blocos__grid { grid-template-columns: 1fr; }
   .mosi-oficinas__grid { grid-template-columns: repeat(2, 1fr); }
+  .mosi-acess__grid { grid-template-columns: 1fr; }
   .mosi-downloads { grid-template-columns: repeat(2, 1fr); }
-  .mosi-dia { grid-template-columns: 1fr; gap: 18px; }
-  .mosi-dia__marca { position: static; display: flex; align-items: baseline; gap: 14px; }
-  .mosi-agenda li { grid-template-columns: 100px 1fr; }
-  .mosi-agenda__local { grid-column: 2; text-align: left; color: var(--cinza-texto); }
 }
 
 @media (max-width: 767px) {
+  .mosi-menu a { padding: 14px 12px; font-size: 13px; }
+  .mosi-menu__destaque { padding-inline: 18px; }
   .mosi-hero__nome { font-size: 19px; }
+  .mosi-hero__chamada { font-size: 17px; }
   .mosi-hero__lema { font-size: 26px; }
   .mosi-hero__acoes .btn { width: 100%; }
   .mosi-numeros { grid-template-columns: 1fr; }
@@ -1703,8 +1842,10 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .mosi-citacao { padding: 60px 0; }
   .mosi-citacao p { font-size: 20px; }
   .mosi-downloads { grid-template-columns: 1fr; }
-  .mosi-agenda li { grid-template-columns: 1fr; gap: 8px; }
-  .mosi-agenda__local { grid-column: 1; }
+  .mosi-cards { grid-template-columns: 1fr; }
+  .mosi-card { padding: 26px 24px 30px; }
+  .mosi-filtros__rotulo { min-width: 100%; }
+  .mosi-chip { padding: 9px 18px; font-size: 14px; }
   .mosi-oficinas__grid { grid-template-columns: 1fr; }
   .mosi-form__grade { grid-template-columns: 1fr; }
   .mosi-form__opcoes--linha { grid-auto-flow: row; }

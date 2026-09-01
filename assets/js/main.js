@@ -209,6 +209,152 @@
     });
   }
 
+  /* ------------------------- Menu da página do MOSI ----------------------- */
+  var menuMosi = document.querySelector('.mosi-menu');
+
+  if (menuMosi) {
+    var cabecalhoSite = document.querySelector('.header');
+
+    /* O menu do MOSI gruda logo abaixo do cabeçalho do site, que também é
+       fixo. Como a altura dele muda com a largura da tela, ela é medida aqui
+       e devolvida ao CSS. */
+    var medirCabecalho = function () {
+      var alturaTopo = cabecalhoSite ? cabecalhoSite.offsetHeight : 0;
+      var alturaMenu = menuMosi.offsetHeight;
+      document.documentElement.style.setProperty('--altura-cabecalho', alturaTopo + 'px');
+      /* Evita que o título da seção fique escondido atrás das duas barras
+         quando o visitante clica num item do menu. */
+      document.documentElement.style.setProperty('scroll-padding-top', alturaTopo + alturaMenu + 24 + 'px');
+    };
+
+    medirCabecalho();
+    window.addEventListener('resize', medirCabecalho);
+    window.addEventListener('load', medirCabecalho);
+
+    /* Marca no menu a seção que está sendo lida. */
+    var itensMenu = Array.prototype.slice.call(menuMosi.querySelectorAll('a[href^="#"]'));
+    var secoes = itensMenu
+      .map(function (item) { return document.querySelector(item.getAttribute('href')); })
+      .filter(Boolean);
+
+    if (secoes.length && 'IntersectionObserver' in window) {
+      var vistas = {};
+
+      var marcarAtiva = function () {
+        var atual = null;
+        secoes.forEach(function (secao) {
+          if (vistas[secao.id]) atual = atual || secao.id;
+        });
+        itensMenu.forEach(function (item) {
+          var alvo = item.getAttribute('href').slice(1);
+          if (atual && alvo === atual) item.setAttribute('aria-current', 'true');
+          else item.removeAttribute('aria-current');
+        });
+      };
+
+      var observador = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (entrada) { vistas[entrada.target.id] = entrada.isIntersecting; });
+        marcarAtiva();
+      }, { rootMargin: '-25% 0px -60% 0px' });
+
+      secoes.forEach(function (secao) { observador.observe(secao); });
+    }
+  }
+
+  /* ------------------ Filtros da programação (dia e categoria) ------------ */
+  var listaProgramacao = document.querySelector('[data-lista-programacao]');
+
+  if (listaProgramacao) {
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.mosi-chip'));
+    var cards = Array.prototype.slice.call(listaProgramacao.querySelectorAll('.mosi-card'));
+    var semResultado = document.querySelector('#programacao-vazia');
+    var contagem = document.querySelector('#contagem-programacao');
+    var escolha = { dia: 'todos', categoria: 'todos' };
+
+    var aplicarFiltros = function () {
+      var visiveis = 0;
+
+      cards.forEach(function (card) {
+        var casaDia = escolha.dia === 'todos' || card.dataset.dia === escolha.dia;
+        var casaCategoria = escolha.categoria === 'todos' || card.dataset.categoria === escolha.categoria;
+        var mostra = casaDia && casaCategoria;
+        card.hidden = !mostra;
+        if (mostra) visiveis++;
+      });
+
+      if (semResultado) semResultado.hidden = visiveis > 0;
+      if (contagem) {
+        contagem.textContent = visiveis === 1
+          ? '1 atividade encontrada'
+          : visiveis + ' atividades encontradas';
+      }
+    };
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var grupo = chip.dataset.filtro;
+        escolha[grupo] = chip.dataset.valor;
+
+        chips.forEach(function (outro) {
+          if (outro.dataset.filtro !== grupo) return;
+          outro.setAttribute('aria-pressed', String(outro === chip));
+        });
+
+        aplicarFiltros();
+      });
+    });
+
+    aplicarFiltros();
+  }
+
+  /* ------------------------ Modos de leitura do MOSI ---------------------- */
+  var botoesAcess = Array.prototype.slice.call(document.querySelectorAll('[data-acessibilidade]'));
+
+  if (botoesAcess.length) {
+    var MODOS = { contraste: 'acess-contraste', texto: 'acess-texto' };
+    var raiz = document.documentElement;
+
+    /* localStorage falha em navegação privada de alguns navegadores, então
+       o modo continua funcionando mesmo quando não dá para guardar. */
+    var guardar = function (chave, valor) {
+      try { window.localStorage.setItem(chave, valor); } catch (e) {}
+    };
+    var ler = function (chave) {
+      try { return window.localStorage.getItem(chave); } catch (e) { return null; }
+    };
+
+    var sincronizar = function () {
+      botoesAcess.forEach(function (botao) {
+        var modo = botao.dataset.acessibilidade;
+        if (!MODOS[modo]) return;
+        botao.setAttribute('aria-pressed', String(raiz.classList.contains(MODOS[modo])));
+      });
+    };
+
+    Object.keys(MODOS).forEach(function (modo) {
+      if (ler('mosi-' + modo) === 'sim') raiz.classList.add(MODOS[modo]);
+    });
+    sincronizar();
+
+    botoesAcess.forEach(function (botao) {
+      botao.addEventListener('click', function () {
+        var modo = botao.dataset.acessibilidade;
+
+        if (modo === 'limpar') {
+          Object.keys(MODOS).forEach(function (nome) {
+            raiz.classList.remove(MODOS[nome]);
+            guardar('mosi-' + nome, 'nao');
+          });
+        } else if (MODOS[modo]) {
+          var ligado = raiz.classList.toggle(MODOS[modo]);
+          guardar('mosi-' + modo, ligado ? 'sim' : 'nao');
+        }
+
+        sincronizar();
+      });
+    });
+  }
+
   /* --------------------- Inscrição nas oficinas do MOSI ------------------- */
   var formOficinas = document.querySelector('#form-oficinas');
 

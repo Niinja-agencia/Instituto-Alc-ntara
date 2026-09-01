@@ -209,6 +209,168 @@
     });
   }
 
+  /* --------------------- Inscrição nas oficinas do MOSI ------------------- */
+  var formOficinas = document.querySelector('#form-oficinas');
+
+  if (formOficinas) {
+    var recebido = document.querySelector('#inscricao-recebida');
+    var erroGeral = document.querySelector('#erro-geral');
+    var erroOficina = document.querySelector('#erro-oficina');
+    var blocoAcess = document.querySelector('#acessibilidade-detalhe');
+    var acessQual = document.querySelector('#acessibilidade-qual');
+    var blocoResp = document.querySelector('#bloco-responsavel');
+    var avisoSemDestino = document.querySelector('#aviso-sem-destino');
+
+    /* Enquanto não houver destino configurado, o aviso aparece ANTES de a
+       pessoa preencher, para ninguém perder tempo com um formulário mudo. */
+    if (avisoSemDestino) avisoSemDestino.hidden = !!formOficinas.dataset.destino;
+
+    /* A idade é contada na data de início do MOSI, não na data da inscrição:
+       quem faz 18 anos antes do evento não precisa de responsável. */
+    var INICIO_MOSI = new Date(2026, 8, 14);
+
+    function idadeNoEvento(valor) {
+      var partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(valor || '');
+      if (!partes) return null;
+      var nasc = new Date(+partes[1], +partes[2] - 1, +partes[3]);
+      if (isNaN(nasc.getTime())) return null;
+      var idade = INICIO_MOSI.getFullYear() - nasc.getFullYear();
+      var mes = INICIO_MOSI.getMonth() - nasc.getMonth();
+      if (mes < 0 || (mes === 0 && INICIO_MOSI.getDate() < nasc.getDate())) idade--;
+      return idade;
+    }
+
+    /* Contador de caracteres */
+    document.querySelectorAll('[data-contador]').forEach(function (saida) {
+      var campo = document.getElementById(saida.dataset.contador);
+      if (!campo) return;
+      var atualiza = function () { saida.textContent = campo.value.length; };
+      campo.addEventListener('input', atualiza);
+      atualiza();
+    });
+
+    /* Campo de acessibilidade: só aparece (e só é obrigatório) no "Sim" */
+    formOficinas.querySelectorAll('input[name="acessibilidade"]').forEach(function (opcao) {
+      opcao.addEventListener('change', function () {
+        var precisa = opcao.checked && opcao.value === 'Sim';
+        blocoAcess.hidden = !precisa;
+        if (!precisa) { acessQual.value = ''; acessQual.removeAttribute('aria-invalid'); }
+      });
+    });
+
+    /* Bloco do responsável: só para quem tem menos de 18 anos no início do MOSI */
+    var nascimento = document.querySelector('#nascimento');
+    nascimento.addEventListener('change', function () {
+      var idade = idadeNoEvento(nascimento.value);
+      var menor = idade !== null && idade < 18;
+      blocoResp.hidden = !menor;
+      if (!menor) {
+        blocoResp.querySelectorAll('input').forEach(function (c) {
+          if (c.type === 'checkbox') c.checked = false; else c.value = '';
+          c.removeAttribute('aria-invalid');
+        });
+      }
+    });
+
+    function marcar(campo, invalido) {
+      if (invalido) campo.setAttribute('aria-invalid', 'true');
+      else campo.removeAttribute('aria-invalid');
+      return invalido;
+    }
+
+    function validar() {
+      var faltando = [];
+
+      /* 1. pelo menos uma oficina */
+      var oficinas = formOficinas.querySelectorAll('input[name="oficina"]:checked');
+      erroOficina.hidden = oficinas.length > 0;
+      if (!oficinas.length) faltando.push(formOficinas.querySelector('input[name="oficina"]'));
+
+      /* 2. campos de texto obrigatórios que estão visíveis */
+      formOficinas.querySelectorAll('input[required], textarea[required]').forEach(function (campo) {
+        if (campo.type === 'radio' || campo.type === 'checkbox') return;
+        if (campo.closest('[hidden]')) return;
+        var vazio = !campo.value.trim() || (campo.type === 'email' && !campo.checkValidity());
+        if (marcar(campo, vazio)) faltando.push(campo);
+      });
+
+      /* 3. grupos de escolha única obrigatórios */
+      ['disponibilidade', 'experiencia', 'compromisso', 'acessibilidade'].forEach(function (nome) {
+        var grupo = formOficinas.querySelectorAll('input[name="' + nome + '"]');
+        var marcado = formOficinas.querySelector('input[name="' + nome + '"]:checked');
+        if (!marcado && grupo.length) faltando.push(grupo[0]);
+      });
+
+      /* 4. detalhe da acessibilidade, quando o bloco está aberto */
+      if (!blocoAcess.hidden && marcar(acessQual, !acessQual.value.trim())) faltando.push(acessQual);
+
+      /* 5. dados do responsável, quando o participante é menor de idade */
+      if (!blocoResp.hidden) {
+        blocoResp.querySelectorAll('input[type="text"], input[type="tel"]').forEach(function (campo) {
+          if (marcar(campo, !campo.value.trim())) faltando.push(campo);
+        });
+        var autoriza = document.querySelector('#responsavel-autoriza');
+        if (!autoriza.checked) faltando.push(autoriza);
+      }
+
+      /* 6. consentimento de dados */
+      var lgpd = formOficinas.querySelector('input[name="lgpd"]');
+      if (!lgpd.checked) faltando.push(lgpd);
+
+      return faltando;
+    }
+
+    formOficinas.addEventListener('submit', function (e) {
+      e.preventDefault();
+      erroGeral.hidden = true;
+
+      var faltando = validar();
+      if (faltando.length) {
+        erroGeral.textContent = 'Faltou preencher ' + faltando.length +
+          (faltando.length === 1 ? ' item obrigatório.' : ' itens obrigatórios.') +
+          ' Os campos estão destacados abaixo.';
+        erroGeral.hidden = false;
+        faltando[0].focus({ preventScroll: true });
+        faltando[0].scrollIntoView({ block: 'center' });
+        return;
+      }
+
+      var destino = formOficinas.dataset.destino;
+
+      /* Sem destino configurado o formulário NÃO finge que enviou: avisa e
+         oferece os canais diretos, para ninguém achar que se inscreveu. */
+      if (!destino) {
+        erroGeral.textContent = 'O envio automático ainda não está ligado. ' +
+          'Envie sua inscrição pelo WhatsApp (31) 2026-0374 ou para gestaoinstitutoalcantara@gmail.com.';
+        erroGeral.hidden = false;
+        return;
+      }
+
+      var botao = formOficinas.querySelector('button[type="submit"]');
+      botao.disabled = true;
+      botao.textContent = 'ENVIANDO...';
+
+      /* URLSearchParams e não FormData: vira application/x-www-form-urlencoded,
+         que o Apps Script do Google lê em e.parameters e que o navegador manda
+         sem preflight de CORS. Com multipart o script recebe o corpo cru. */
+      fetch(destino, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(formOficinas))
+      }).then(function (resposta) {
+        if (!resposta.ok) throw new Error('falha no envio');
+        formOficinas.hidden = true;
+        recebido.hidden = false;
+        recebido.scrollIntoView({ block: 'center' });
+      }).catch(function () {
+        botao.disabled = false;
+        botao.textContent = 'ENVIAR INSCRIÇÃO';
+        erroGeral.textContent = 'Não conseguimos enviar agora. Tente de novo em instantes ou ' +
+          'fale pelo WhatsApp (31) 2026-0374.';
+        erroGeral.hidden = false;
+      });
+    });
+  }
+
   /* ---------------------- Busca nas listagens de notícias / agenda -------- */
   document.querySelectorAll('.busca input[type="search"]').forEach(function (campo) {
     var secao = campo.closest('section') || document;

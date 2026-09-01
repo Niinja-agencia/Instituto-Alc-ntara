@@ -1414,6 +1414,8 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   color: var(--mosi-vermelho, #d2241e);
 }
 .mosi-agenda__item { font-size: 16px; line-height: 1.6; color: var(--cinza-texto); }
+.mosi-agenda__item a { font-weight: 600; color: var(--preto); text-decoration: underline; }
+.mosi-agenda__item a:hover { color: var(--mosi-vermelho, #d2241e); }
 .mosi-agenda__item strong {
   display: block;
   font-size: 20px;
@@ -1433,7 +1435,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 
 /* --------------------------------------------- Oficinas, feira, acesso --- */
 .mosi-blocos { background: var(--branco); }
-.mosi-blocos__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.mosi-blocos__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
 .mosi-bloco {
   padding: 40px 34px;
   background: var(--creme);
@@ -1453,6 +1455,161 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   border-radius: 50%;
 }
 .mosi-horarios strong { display: inline-block; min-width: 96px; font-weight: 700; }
+
+/* ----------------------------------------------------------- Oficinas ---- */
+.mosi-oficinas { background: var(--cinza-claro); }
+.mosi-oficinas__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; align-items: start; }
+.mosi-oficina {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 34px 30px 30px;
+  background: var(--branco);
+  border-radius: 20px 0;
+}
+.mosi-oficina__selo {
+  margin: 0;
+  padding: 6px 14px;
+  background: var(--borda);
+  color: var(--cinza-texto);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border-radius: 30px;
+}
+.mosi-oficina__selo--aberta { background: var(--amarelo); color: var(--preto); }
+.mosi-oficina h3 { font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--preto); margin: 6px 0 0; }
+.mosi-oficina__grupo { margin: 0; font-size: 15px; font-weight: 600; color: var(--mosi-vermelho, #d2241e); }
+.mosi-oficina__datas { display: grid; gap: 6px; margin: 8px 0 0; }
+.mosi-oficina__datas li { font-size: 15px; line-height: 1.5; color: var(--preto); }
+.mosi-oficina__datas strong { display: inline-block; min-width: 54px; font-weight: 700; }
+.mosi-oficina__local { margin: 4px 0 0; font-size: 14px; line-height: 1.6; color: var(--cinza-texto); }
+.mosi-oficina .btn { margin-top: auto; }
+/* As duas do público escolar não têm botão, então ficam mais discretas. */
+.mosi-oficina--escolar { background: transparent; border: 1px dashed var(--borda); }
+
+/* ---------------------------------------------------------- Inscrição ---- */
+.mosi-inscricao { background: var(--branco); }
+.mosi-form { max-width: 980px; }
+.mosi-form__aviso {
+  max-width: 980px;
+  margin: 0 0 34px;
+  padding: 20px 24px;
+  background: #fff8e1;
+  border-left: 5px solid var(--amarelo);
+  border-radius: 0 8px 8px 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--preto);
+}
+.mosi-form__aviso a { text-decoration: underline; }
+.mosi-form__bloco { border: 0; margin: 0 0 44px; padding: 0; }
+.mosi-form__bloco legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 0 0 18px;
+  margin-bottom: 26px;
+  border-bottom: 2px solid var(--preto);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--preto);
+}
+.mosi-form__bloco legend span {
+  display: grid;
+  place-items: center;
+  width: 36px; height: 36px;
+  background: var(--amarelo);
+  border-radius: 50%;
+  font-size: 17px;
+}
+.mosi-form__ajuda { font-size: 15px; line-height: 1.6; color: var(--cinza-texto); margin: 0 0 18px; }
+
+.mosi-form__grade { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.mosi-campo { display: flex; flex-direction: column; gap: 8px; }
+.mosi-campo--largo { grid-column: 1 / -1; }
+.mosi-campo label,
+.mosi-pergunta__titulo { font-size: 16px; font-weight: 600; color: var(--preto); margin: 0; }
+.mosi-campo label em,
+.mosi-pergunta__titulo em { color: var(--mosi-vermelho, #d2241e); font-style: normal; }
+.mosi-campo__opcional { font-size: 13px; font-weight: 500; color: var(--cinza-texto); text-transform: lowercase; }
+
+.mosi-form input[type='text'],
+.mosi-form input[type='email'],
+.mosi-form input[type='tel'],
+.mosi-form input[type='date'],
+.mosi-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--preto);
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  outline: none;
+  transition: var(--transicao);
+}
+.mosi-form input:focus,
+.mosi-form textarea:focus { border-color: var(--preto); box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.45); }
+.mosi-form textarea { resize: vertical; min-height: 96px; }
+.mosi-form [aria-invalid='true'] { border-color: var(--mosi-vermelho, #d2241e); }
+
+.mosi-pergunta { margin-bottom: 30px; }
+.mosi-pergunta:last-child { margin-bottom: 0; }
+.mosi-pergunta__titulo { display: block; margin-bottom: 14px; line-height: 1.5; }
+
+.mosi-form__opcoes { display: grid; gap: 12px; }
+.mosi-form__opcoes--linha { grid-auto-flow: column; justify-content: start; gap: 14px; }
+
+.mosi-opcao {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transicao);
+}
+.mosi-opcao:hover { border-color: var(--preto); }
+.mosi-opcao input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: #d2241e; flex-shrink: 0; }
+.mosi-opcao:has(input:checked) { border-color: var(--preto); background: #fffdf3; box-shadow: inset 0 0 0 1px var(--preto); }
+.mosi-opcao--simples { align-items: center; padding: 14px 20px; }
+.mosi-opcao--simples span { font-size: 16px; color: var(--preto); }
+.mosi-opcao--termo { align-items: flex-start; }
+.mosi-opcao--termo span { font-size: 15px; line-height: 1.6; color: var(--cinza-texto); }
+.mosi-opcao--termo strong { color: var(--preto); }
+
+.mosi-opcao__corpo { display: flex; flex-direction: column; gap: 4px; }
+.mosi-opcao__corpo strong { font-size: 19px; font-weight: 700; color: var(--preto); }
+.mosi-opcao__grupo { font-size: 14px; font-weight: 600; color: var(--mosi-vermelho, #d2241e); }
+.mosi-opcao__detalhe { font-size: 14px; line-height: 1.6; color: var(--cinza-texto); }
+
+.mosi-contador { margin: 8px 0 0; font-size: 13px; color: var(--cinza-texto); text-align: right; }
+.mosi-form__erro { margin: 10px 0 0; font-size: 15px; font-weight: 600; color: var(--mosi-vermelho, #d2241e); }
+.mosi-form__acoes { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+
+.mosi-recebido {
+  max-width: 980px;
+  padding: 50px;
+  background: var(--creme);
+  border-radius: 50px 0;
+}
+.mosi-recebido h3 { font-size: 34px; font-weight: 700; color: var(--preto); margin-bottom: 16px; }
+.mosi-recebido p { font-size: 17px; line-height: 1.7; color: var(--cinza-texto); }
+.mosi-recebido__assinatura {
+  margin: 22px 0 0;
+  font-family: var(--fonte-display);
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--preto);
+}
 
 /* ------------------------------------------------------------ Citação ---- */
 .mosi-citacao { background: var(--preto); color: var(--branco); padding: 90px 0; }
@@ -1528,6 +1685,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .mosi-servico__grid { grid-template-columns: 1fr; gap: 34px; }
   .mosi-numeros { grid-template-columns: repeat(2, 1fr); }
   .mosi-blocos__grid { grid-template-columns: 1fr; }
+  .mosi-oficinas__grid { grid-template-columns: repeat(2, 1fr); }
   .mosi-downloads { grid-template-columns: repeat(2, 1fr); }
   .mosi-dia { grid-template-columns: 1fr; gap: 18px; }
   .mosi-dia__marca { position: static; display: flex; align-items: baseline; gap: 14px; }
@@ -1547,4 +1705,10 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .mosi-downloads { grid-template-columns: 1fr; }
   .mosi-agenda li { grid-template-columns: 1fr; gap: 8px; }
   .mosi-agenda__local { grid-column: 1; }
+  .mosi-oficinas__grid { grid-template-columns: 1fr; }
+  .mosi-form__grade { grid-template-columns: 1fr; }
+  .mosi-form__opcoes--linha { grid-auto-flow: row; }
+  .mosi-form__bloco legend { font-size: 20px; }
+  .mosi-recebido { padding: 30px; border-radius: 30px 0; }
+  .mosi-recebido h3 { font-size: 26px; }
 }

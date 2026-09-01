@@ -1,11 +1,16 @@
 /**
  * MOSI 2026 - recebe as inscrições das oficinas e grava na planilha.
  *
- * Cole este arquivo em Extensões > Apps Script da planilha e publique como
- * App da Web ("Executar como: Eu", "Quem pode acessar: Qualquer pessoa").
+ * Cole este arquivo num projeto do Apps Script e publique como App da Web
+ * ("Executar como: Eu", "Quem pode acessar: Qualquer pessoa").
  * O passo a passo completo está em docs/inscricoes-mosi.md.
+ *
+ * O projeto abre a planilha pelo ID, e não por getActiveSpreadsheet(): assim
+ * funciona como projeto avulso e não depende do vínculo com o arquivo, que
+ * quebra quando há várias contas Google logadas no mesmo navegador.
  */
 
+var PLANILHA_ID = '1SlgVxWA8MZfx7mlRXe6MDjCzXahbr0ko7nidoPzYfPs';
 var ABA = 'Inscrições';
 
 /* Primeira posição = título da coluna na planilha.
@@ -63,7 +68,7 @@ function doGet() {
 }
 
 function preparaAba_() {
-  var planilha = SpreadsheetApp.getActiveSpreadsheet();
+  var planilha = SpreadsheetApp.openById(PLANILHA_ID);
   var aba = planilha.getSheetByName(ABA);
 
   if (!aba) {

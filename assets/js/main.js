@@ -487,7 +487,7 @@
          oferece os canais diretos, para ninguém achar que se inscreveu. */
       if (!destino) {
         erroGeral.textContent = 'O envio automático ainda não está ligado. ' +
-          'Envie sua inscrição pelo WhatsApp (31) 2026-0374 ou para gestaoinstitutoalcantara@gmail.com.';
+          'Envie sua inscrição pelo WhatsApp (31) 2026-0374 ou para junia.institutoalcantara@gmail.com.';
         erroGeral.hidden = false;
         return;
       }

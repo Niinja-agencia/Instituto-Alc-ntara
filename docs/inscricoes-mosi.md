@@ -18,6 +18,12 @@ Tudo abaixo já foi feito. Esta seção existe para você achar as peças depois
 | ID do projeto | `1lM45ASzWTxA1aItoihlY6npIX0NiN-_2Wbna33dgY27Nj0epRefK1mhm` |
 | Implantação | Versão 1, App da Web, Executar como Eu, Acesso: Qualquer pessoa |
 
+**Quem enxerga a planilha.** Acesso geral **Restrito**: só quem está na lista abre pelo
+link. Hoje são `agencianiinja@gmail.com` (proprietária),
+`junia.institutoalcantara@gmail.com` (editora, é o e-mail de inscrição que aparece no site)
+e `gestaoinstitutoalcantara@gmail.com` (editora, contato de imprensa). Para mudar isso,
+botão **Compartilhar** na própria planilha.
+
 **Pegadinha das várias contas.** Aquele Chrome tem 4 contas Google logadas e a da
 agência é a **terceira** (`authuser=2`). Com mais de uma conta, o caminho
 Extensões → Apps Script da planilha abre em "Página não encontrada" e o script

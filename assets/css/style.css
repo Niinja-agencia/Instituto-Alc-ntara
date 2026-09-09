@@ -1878,15 +1878,20 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   overflow: hidden;
   transition: transform var(--transicao), box-shadow var(--transicao);
 }
+/* A arte tem 900x1200. O tamanho fica no CONTAINER, com aspect-ratio, e nao
+   depende de a imagem ter chegado: se dependesse (width/height auto), o card
+   nasceria com altura zero e cresceria meio metro de tela quando a imagem
+   carregasse, empurrando as secoes de baixo e fazendo o link do menu parar na
+   secao errada. */
+.mosi-card__arte { width: 100%; max-width: 390px; aspect-ratio: 3 / 4; }
+.mosi-oficina__arte { width: 100%; max-width: 315px; aspect-ratio: 3 / 4; }
 .mosi-card__arte img,
 .mosi-oficina__arte img {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 520px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-.mosi-oficina__arte img { max-height: 420px; }
 .mosi-card__arte:hover,
 .mosi-card__arte:focus-visible,
 .mosi-oficina__arte:hover,
@@ -1898,9 +1903,11 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .mosi-oficinas__abertura { margin-bottom: 34px; text-align: center; line-height: 0; }
 .mosi-oficinas__abertura img {
   display: inline-block;
-  width: auto;
+  width: 195px;
   max-width: 100%;
-  max-height: 260px;
+  aspect-ratio: 3 / 4;
+  height: auto;
+  background: #ece7e2;
   border-radius: 16px 0;
 }
 
@@ -2067,7 +2074,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .mosi-guia__arte { max-width: 220px; margin: 0 auto; }
   .mosi-guia__texto h3 { font-size: 25px; }
   .mosi-guia__texto .btn { width: 100%; }
-  .mosi-card__arte img { max-height: 380px; }
+  .mosi-card__arte { max-width: 285px; }   /* 285x380, mantendo o 3:4 */
   .home-mosi { padding: 64px 0; }
   .home-mosi h2 { font-size: 38px; }
   .home-mosi__dias { grid-template-columns: 1fr; }

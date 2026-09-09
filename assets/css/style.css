@@ -1304,8 +1304,11 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 }
 .mosi-menu a:hover { color: var(--mosi-amarelo); }
 .mosi-menu a[aria-current='true'] { color: var(--mosi-amarelo); border-bottom-color: var(--mosi-amarelo); }
+/* O item flex e o <li>, nao o <a>: e nele que o auto empurra o botao para a
+   ponta direita quando sobra espaco. O padding garante que ele nunca encoste
+   no IMPRENSA quando nao sobra. */
+.mosi-menu li:last-child { margin-left: auto; padding-left: 22px; }
 .mosi-menu__destaque {
-  margin-left: auto;
   background: var(--mosi-amarelo);
   color: var(--preto) !important;
   border-radius: 50px 0;
@@ -1832,6 +1835,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 @media (max-width: 767px) {
   .mosi-menu a { padding: 14px 12px; font-size: 13px; }
   .mosi-menu__destaque { padding-inline: 18px; }
+  .mosi-menu li:last-child { padding-left: 14px; }
   .mosi-hero__nome { font-size: 19px; }
   .mosi-hero__chamada { font-size: 17px; }
   .mosi-hero__lema { font-size: 26px; }

@@ -237,14 +237,22 @@
       .map(function (item) { return document.querySelector(item.getAttribute('href')); })
       .filter(Boolean);
 
-    if (secoes.length && 'IntersectionObserver' in window) {
-      var vistas = {};
-
+    if (secoes.length) {
+      /* Vale a seção que cruza a linha de leitura, logo abaixo das duas barras
+         grudadas no topo. Antes bastava a seção "aparecer" numa faixa da tela,
+         e quem ganhava era a primeira da lista: como o clique no menu para no
+         topo de uma seção, a de cima ainda aparecia por alguns pixels e o
+         menu marcava sempre o item anterior ao que o visitante estava lendo. */
       var marcarAtiva = function () {
+        var barras = menuMosi.getBoundingClientRect().bottom;
+        var linha = Math.max(barras + 40, window.innerHeight * 0.3);
         var atual = null;
+
         secoes.forEach(function (secao) {
-          if (vistas[secao.id]) atual = atual || secao.id;
+          var r = secao.getBoundingClientRect();
+          if (r.top <= linha && r.bottom > linha) atual = secao.id;
         });
+
         itensMenu.forEach(function (item) {
           var alvo = item.getAttribute('href').slice(1);
           if (atual && alvo === atual) item.setAttribute('aria-current', 'true');
@@ -252,12 +260,20 @@
         });
       };
 
-      var observador = new IntersectionObserver(function (entradas) {
-        entradas.forEach(function (entrada) { vistas[entrada.target.id] = entrada.isIntersecting; });
-        marcarAtiva();
-      }, { rootMargin: '-25% 0px -60% 0px' });
+      marcarAtiva();
+      window.addEventListener('scroll', marcarAtiva, { passive: true });
+      window.addEventListener('resize', marcarAtiva);
+      window.addEventListener('load', marcarAtiva);
+      window.addEventListener('hashchange', marcarAtiva);
 
-      secoes.forEach(function (secao) { observador.observe(secao); });
+      /* Clicar no menu tambem remarca na hora, sem esperar o rolar suave:
+         a segunda chamada pega o fim do movimento. */
+      itensMenu.forEach(function (item) {
+        item.addEventListener('click', function () {
+          setTimeout(marcarAtiva, 60);
+          setTimeout(marcarAtiva, 700);
+        });
+      });
     }
   }
 

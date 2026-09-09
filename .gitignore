@@ -12,3 +12,6 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# Configuracao local do preview do Claude Code (servidor em servidor.ps1).
+.claude/

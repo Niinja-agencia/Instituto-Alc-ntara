@@ -275,7 +275,10 @@
       var visiveis = 0;
 
       cards.forEach(function (card) {
-        var casaDia = escolha.dia === 'todos' || card.dataset.dia === escolha.dia;
+        /* Uma atividade pode ocupar varios dias (a Feira, por exemplo):
+           o data-dia aceita uma lista separada por espaco. */
+        var dias = (card.dataset.dia || '').split(' ');
+        var casaDia = escolha.dia === 'todos' || dias.indexOf(escolha.dia) !== -1;
         var casaCategoria = escolha.categoria === 'todos' || card.dataset.categoria === escolha.categoria;
         var mostra = casaDia && casaCategoria;
         card.hidden = !mostra;

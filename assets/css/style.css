@@ -1868,6 +1868,9 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .mosi-oficina__arte {
   display: block;
   align-self: center;
+  /* Fundo de espera: enquanto a arte não chega, o lugar dela é um retângulo
+     discreto, não um buraco branco no meio do card. */
+  background: #ece7e2;
   max-width: 100%;
   margin-bottom: 10px;
   line-height: 0;
@@ -1934,7 +1937,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   background: var(--creme);
   border-radius: 24px 0;
 }
-.mosi-guia__arte { line-height: 0; }
+.mosi-guia__arte { line-height: 0; background: #ece7e2; border-radius: 16px 0; }
 .mosi-guia__arte img {
   display: block;
   width: 100%;

@@ -523,6 +523,12 @@
         body: new URLSearchParams(new FormData(formOficinas))
       }).then(function (resposta) {
         if (!resposta.ok) throw new Error('falha no envio');
+        return resposta.json();
+      }).then(function (dados) {
+        /* O script do Google responde 200 mesmo quando NAO consegue gravar: o
+           erro vem dentro do corpo, em {ok: false}. Olhar so o status fazia a
+           pessoa ver "inscricao recebida" com a planilha sem a linha dela. */
+        if (!dados || dados.ok !== true) throw new Error((dados && dados.erro) || 'resposta inesperada');
         formOficinas.hidden = true;
         recebido.hidden = false;
         recebido.scrollIntoView({ block: 'center' });

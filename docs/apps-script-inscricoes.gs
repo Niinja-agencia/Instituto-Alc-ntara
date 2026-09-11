@@ -56,6 +56,12 @@ function doPost(e) {
     aba.appendRow(linha);
     return resposta_({ ok: true });
   } catch (erro) {
+    /* Vai para o log de Execucoes do projeto (clique na execucao para ver).
+       Leva junto o que a pessoa preencheu: se a planilha falhar, a inscricao
+       ainda pode ser recuperada daqui. O site le o {ok: false} e mostra o erro
+       com o WhatsApp de contingencia, em vez de fingir que recebeu. */
+    console.error('FALHA AO GRAVAR INSCRICAO: ' + erro +
+      ' | dados: ' + JSON.stringify((e && e.parameters) || {}));
     return resposta_({ ok: false, erro: String(erro) });
   } finally {
     trava.releaseLock();

@@ -33,6 +33,9 @@ $paginas = @(
   @{ arquivo = 'noticias.html';         fonte = 'conteudo-noticias.html';         ativo = 'noticias' }
   @{ arquivo = 'trabalhe-conosco.html'; fonte = 'conteudo-trabalhe-conosco.html'; ativo = 'trabalhe' }
   @{ arquivo = 'mosi.html';             fonte = 'conteudo-mosi.html';             ativo = 'mosi' }
+
+  # Materias da agenda: o botao "Mais informacoes" de cada card aponta para elas.
+  @{ arquivo = 'agenda-abertura-mosi.html'; fonte = 'conteudo-agenda-abertura-mosi.html'; ativo = 'agenda' }
 )
 
 foreach ($p in $paginas) {

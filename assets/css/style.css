@@ -1257,6 +1257,167 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .destaque-mosi__artes { grid-template-columns: 1fr; }
 }
 
+/* ------------------------------ Matéria da agenda (página do evento) ----- */
+/* Página aberta pelo "Mais informações" de um card da agenda: chamada e foto
+   de capa lado a lado, depois o texto com a programação do dia na lateral. */
+.materia { padding: 10px 0 100px; }
+.materia figure { margin: 0; }
+.materia figcaption {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--cinza-texto);
+}
+.materia__credito { display: block; margin-top: 4px; font-size: 13px; font-style: italic; }
+
+.materia__trilha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 30px 0 26px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--cinza-texto);
+}
+.materia__trilha a { transition: var(--transicao); }
+.materia__trilha a:hover { color: var(--amarelo-escuro); }
+
+.materia__abertura {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: center;
+  padding: 50px;
+  background: var(--creme);
+  border-radius: 50px 0;
+}
+.materia__abertura .rotulo__risco { margin-bottom: 28px; }
+.materia__abertura h1 {
+  font-size: clamp(28px, 2.5vw, 44px);
+  font-weight: 700;
+  line-height: 1.18;
+  color: var(--preto);
+  margin-bottom: 22px;
+}
+.materia__linha-fina { font-size: 20px; font-weight: 500; line-height: 1.55; color: var(--cinza-texto); }
+.materia__dados { display: grid; gap: 12px; margin-top: 30px; }
+.materia__dados li { font-size: 16px; line-height: 1.5; color: var(--preto); }
+.materia__dados strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--cinza-texto);
+}
+/* A capa costuma ser vertical: a largura máxima segura a altura em telas grandes. */
+.materia__capa { width: 100%; max-width: 540px; justify-self: center; }
+.materia__capa img { width: 100%; border-radius: 10px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14); }
+
+.materia__corpo {
+  display: grid;
+  grid-template-columns: minmax(0, 760px) minmax(300px, 420px);
+  justify-content: space-between;
+  gap: 60px;
+  align-items: start;
+  margin-top: 70px;
+}
+.materia__texto p { font-size: 18px; line-height: 1.8; color: var(--cinza-texto); margin-bottom: 1.3em; }
+.materia__texto h2 { font-size: 28px; font-weight: 700; color: var(--preto); margin: 54px 0 18px; }
+.materia__texto h2::before {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: var(--amarelo);
+  margin-bottom: 18px;
+}
+.materia__texto a {
+  color: var(--preto);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--amarelo);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: var(--transicao);
+}
+.materia__texto a:hover { color: var(--amarelo-escuro); }
+
+/* Fotos lado a lado com a mesma altura: cada figura cresce na proporção da
+   sua imagem (--proporcao = largura / altura, declarada no HTML). */
+.materia__galeria { display: flex; gap: 16px; margin: 36px 0 44px; }
+.materia__galeria figure { flex: var(--proporcao, 1) 1 0; min-width: 0; }
+.materia__galeria img { width: 100%; border-radius: 10px; }
+
+.materia__lateral {
+  padding: 38px 34px;
+  background: var(--preto);
+  color: var(--branco);
+  border-radius: 30px 0;
+}
+.materia__lateral h2 {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 18px;
+  border-bottom: 3px solid var(--amarelo);
+}
+.programacao-dia { margin: 0; padding: 0; list-style: none; }
+.programacao-dia > li { padding: 20px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+.programacao-dia h3 { font-size: 17px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
+.programacao-dia p,
+.programacao-dia__saidas li { font-size: 15px; line-height: 1.55; color: rgba(255, 255, 255, 0.74); margin: 0; }
+.programacao-dia .programacao-dia__hora { font-weight: 700; color: var(--amarelo); margin-bottom: 6px; }
+.programacao-dia__saidas { list-style: disc; padding-left: 18px; margin: 2px 0 6px; }
+.programacao-dia__saidas li::marker { color: var(--amarelo); }
+
+.materia__servico { display: grid; gap: 14px; padding-top: 26px; }
+.materia__servico p { margin: 0; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+.materia__servico span {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+.materia__servico a { color: var(--amarelo); transition: var(--transicao); }
+.materia__servico a:hover { color: var(--branco); }
+.materia__servico .materia__gratuito {
+  justify-self: start;
+  padding: 9px 20px;
+  background: var(--amarelo);
+  color: var(--preto);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: var(--raio-botao);
+}
+
+.materia__acoes { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 64px; }
+.materia__voltar svg { transform: scaleX(-1); }
+
+@media (max-width: 1024px) {
+  .materia__abertura { grid-template-columns: 1fr; gap: 40px; padding: 34px; }
+  .materia__corpo { grid-template-columns: minmax(0, 760px); gap: 50px; margin-top: 50px; }
+}
+@media (max-width: 767px) {
+  .materia { padding-bottom: 70px; }
+  .materia__trilha { padding: 20px 0 18px; }
+  .materia__abertura { padding: 26px; border-radius: 30px 0; }
+  .materia__linha-fina { font-size: 18px; }
+  .materia__texto p { font-size: 17px; line-height: 1.75; }
+  .materia__texto h2 { font-size: 24px; }
+  .materia__galeria { flex-direction: column; }
+  .materia__galeria figure { flex: none; }
+  .materia__lateral { padding: 30px 22px; }
+  .materia__acoes { margin-top: 44px; }
+  .materia__acoes .btn { width: 100%; justify-content: center; }
+}
+
 /* ==========================================================================
    MOSI 2026 - Mostra de Teatro de Rua de Itabira
    O MOSI tem identidade própria (vermelho e amarelo), então as cores dele

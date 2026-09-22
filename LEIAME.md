@@ -29,7 +29,8 @@ Instituto Alcantara/
 ├── agenda.html                │ geradas por gerar.ps1
 ├── noticias.html              │ a partir de _fonte/
 ├── trabalhe-conosco.html      │
-├── mosi.html                  ┘ landing do MOSI (responde em /mosi)
+├── mosi.html                  │ landing do MOSI (responde em /mosi)
+├── agenda-*.html              ┘ uma página por matéria da agenda
 │
 ├── assets/
 │   ├── css/style.css          todo o estilo do site
@@ -125,6 +126,15 @@ Copie um bloco `<article class="card">` inteiro dentro de
 título e o resumo, e rode `gerar.ps1`. A busca da página filtra os novos cards
 automaticamente — não precisa mexer no JavaScript.
 
+Para o evento ter uma página própria (o "Mais informações" do card), use a
+matéria da abertura do MOSI como modelo:
+
+1. Copie `_fonte/conteudo-agenda-abertura-mosi.html` com um nome novo e troque
+   título, texto, fotos e programação. As fotos vão em `assets/img/agenda/`.
+2. Acrescente a página na lista do `gerar.ps1`, com `ativo = 'agenda'`.
+3. Aponte o botão "Mais informações" do card para o novo `.html` e rode
+   `gerar.ps1`.
+
 ---
 
 ## O que foi mantido igual ao original
@@ -167,10 +177,10 @@ espaço reservado, prontas para você conectar:
 3. **Formulário do Trabalhe Conosco** — mesma situação: precisa de um destino
    (um serviço de formulários como Formspree, ou um endpoint próprio).
 
-Também vale conferir: as páginas de notícia e evento individuais ainda não
-existem — os botões "Ler notícia" e "Mais informações" das listagens apontam
-para `#`. Se quiser, dá para criar uma página por matéria seguindo o mesmo
-padrão de `_fonte/`.
+Também vale conferir: só a matéria da abertura do MOSI tem página própria
+(`agenda-abertura-mosi.html`). Os demais botões "Ler notícia" e "Mais
+informações" das listagens ainda apontam para `#` — para criar as páginas, veja
+"Adicionar uma notícia ou um evento".
 
 ## Publicar
 

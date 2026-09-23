@@ -30,7 +30,8 @@ Instituto Alcantara/
 ├── noticias.html              │ a partir de _fonte/
 ├── trabalhe-conosco.html      │
 ├── mosi.html                  │ landing do MOSI (responde em /mosi)
-├── agenda-*.html              ┘ uma página por matéria da agenda
+├── agenda-*.html              │ uma página por matéria da agenda
+├── noticia-*.html             ┘ uma página por notícia
 │
 ├── assets/
 │   ├── css/style.css          todo o estilo do site
@@ -126,14 +127,21 @@ Copie um bloco `<article class="card">` inteiro dentro de
 título e o resumo, e rode `gerar.ps1`. A busca da página filtra os novos cards
 automaticamente — não precisa mexer no JavaScript.
 
-Para o evento ter uma página própria (o "Mais informações" do card), use a
-matéria da abertura do MOSI como modelo:
+Para a notícia ou o evento ter uma página própria (o "Ler notícia" ou o "Mais
+informações" do card), use uma das matérias prontas como modelo:
+`_fonte/conteudo-noticia-mosi-faz-historia.html` para notícia, ou
+`_fonte/conteudo-agenda-abertura-mosi.html` para evento.
 
-1. Copie `_fonte/conteudo-agenda-abertura-mosi.html` com um nome novo e troque
-   título, texto, fotos e programação. As fotos vão em `assets/img/agenda/`.
-2. Acrescente a página na lista do `gerar.ps1`, com `ativo = 'agenda'`.
-3. Aponte o botão "Mais informações" do card para o novo `.html` e rode
-   `gerar.ps1`.
+1. Copie o modelo com um nome novo e troque título, texto, fotos e a lateral
+   (ficha ou programação). As fotos vão em `assets/img/noticias/` ou
+   `assets/img/agenda/`.
+2. Acrescente a página na lista do `gerar.ps1`, com `ativo = 'noticias'` ou
+   `ativo = 'agenda'`.
+3. Aponte o botão do card para o novo `.html` e rode `gerar.ps1`.
+
+Se a foto de capa for horizontal, deixe a classe `materia__abertura--paisagem`
+no `<header class="materia__abertura">`: ela dá à foto a coluna maior. Para
+capa vertical, tire a classe.
 
 ---
 
@@ -177,8 +185,9 @@ espaço reservado, prontas para você conectar:
 3. **Formulário do Trabalhe Conosco** — mesma situação: precisa de um destino
    (um serviço de formulários como Formspree, ou um endpoint próprio).
 
-Também vale conferir: só a matéria da abertura do MOSI tem página própria
-(`agenda-abertura-mosi.html`). Os demais botões "Ler notícia" e "Mais
+Também vale conferir: só duas matérias têm página própria — a abertura do MOSI,
+na agenda (`agenda-abertura-mosi.html`), e o balanço do MOSI, nas notícias
+(`noticia-mosi-faz-historia.html`). Os demais botões "Ler notícia" e "Mais
 informações" das listagens ainda apontam para `#` — para criar as páginas, veja
 "Adicionar uma notícia ou um evento".
 

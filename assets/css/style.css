@@ -1315,6 +1315,9 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 /* A capa costuma ser vertical: a largura máxima segura a altura em telas grandes. */
 .materia__capa { width: 100%; max-width: 540px; justify-self: center; }
 .materia__capa img { width: 100%; border-radius: 10px; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14); }
+/* Capa horizontal: a foto fica com a coluna maior e sem o limite de largura. */
+.materia__abertura--paisagem { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
+.materia__abertura--paisagem .materia__capa { max-width: none; }
 
 .materia__corpo {
   display: grid;
@@ -1365,6 +1368,8 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   padding-bottom: 18px;
   border-bottom: 3px solid var(--amarelo);
 }
+/* Lateral com mais de um bloco (ficha + contatos): respiro antes do título seguinte. */
+.materia__servico + h2 { margin-top: 44px; }
 .programacao-dia { margin: 0; padding: 0; list-style: none; }
 .programacao-dia > li { padding: 20px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
 .programacao-dia h3 { font-size: 17px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
@@ -2128,109 +2133,12 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .mosi-guia__texto .btn { margin-top: 22px; }
 .mosi-guia__meta { margin-top: 14px; font-size: 14px; color: var(--cinza-texto); }
 
-/* =============================================== Programação na home ====== */
-.home-mosi {
-  --mosi-vermelho: #d2241e;
-  --mosi-amarelo: #f5a428;
-  padding: 90px 0;
-  background: var(--grafite);
-  color: var(--branco);
-}
-.home-mosi__topo {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: 40px;
-  align-items: end;
-  margin-bottom: 44px;
-}
-.home-mosi .rotulo { color: var(--mosi-amarelo); }
-.home-mosi .rotulo__risco { background: var(--mosi-amarelo); }
-.home-mosi h2 {
-  margin: 0;
-  font-family: var(--fonte-display);
-  font-size: 60px;
-  line-height: 0.95;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--branco);
-}
-.home-mosi__nome { margin: 14px 0 0; font-size: 20px; font-weight: 600; color: var(--mosi-amarelo); }
-.home-mosi__texto { margin: 0; font-size: 17px; line-height: 1.75; color: #d8d8d8; }
-.home-mosi__acoes { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; }
-/* O botao preto sumiria no fundo grafite: aqui ele vira vazado claro. */
-.home-mosi .btn--preto {
-  background: transparent;
-  color: var(--branco);
-  border: 2px solid rgba(255, 255, 255, 0.55);
-}
-.home-mosi .btn--preto:hover { background: var(--branco); color: var(--preto); border-color: var(--branco); }
-
-.home-mosi__dias { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-.home-mosi__dia {
-  display: flex;
-  flex-direction: column;
-  padding: 28px 26px 30px;
-  background: #000;
-  border-top: 4px solid var(--mosi-vermelho);
-  border-radius: 20px 0;
-}
-.home-mosi__data {
-  margin: 0 0 4px;
-  font-family: var(--fonte-display);
-  font-size: 34px;
-  line-height: 1;
-  color: var(--mosi-amarelo);
-}
-.home-mosi__semana {
-  margin: 0 0 18px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  color: #9a9a9a;
-}
-.home-mosi__itens { display: grid; gap: 14px; margin: 0; }
-.home-mosi__itens li { display: grid; grid-template-columns: 62px 1fr; gap: 10px; align-items: baseline; }
-.home-mosi__hora { font-size: 14px; font-weight: 700; color: var(--mosi-amarelo); }
-.home-mosi__itens strong { display: block; font-size: 15px; font-weight: 700; line-height: 1.3; color: var(--branco); }
-.home-mosi__itens span { display: block; font-size: 13px; line-height: 1.45; color: #a8a8a8; }
-
-.home-mosi__rodape {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 26px;
-  margin-top: 26px;
-  padding: 28px 30px;
-  background: #000;
-  border-radius: 20px 0;
-}
-.home-mosi__rodape h3 {
-  margin: 0 0 14px;
-  font-size: 19px;
-  font-weight: 700;
-  color: var(--mosi-amarelo);
-}
-.home-mosi__rodape p, .home-mosi__rodape li { font-size: 15px; line-height: 1.6; color: #c8c8c8; }
-.home-mosi__oficinas { display: grid; gap: 10px; margin: 0; }
-.home-mosi__oficinas strong { color: var(--branco); }
-.home-mosi__aviso { margin-top: 26px; font-size: 14px; color: #9a9a9a; }
-.home-mosi a:not(.btn) { color: var(--mosi-amarelo); }
-
 /* ------------------------------------------------------ Alto contraste ---- */
-.acess-contraste .mosi-guia,
-.acess-contraste .home-mosi,
-.acess-contraste .home-mosi__dia,
-.acess-contraste .home-mosi__rodape { background: #000; color: #fff; border-color: #fff; }
+.acess-contraste .mosi-guia { background: #000; color: #fff; border-color: #fff; }
 .acess-contraste .mosi-card__libras { background: #000; border: 2px solid #fff; }
 
 /* ---------------------------------------------------------- Responsivo ---- */
-@media (max-width: 1200px) {
-  .home-mosi__dias { grid-template-columns: repeat(2, 1fr); }
-}
-
 @media (max-width: 1024px) {
-  .home-mosi__topo { grid-template-columns: 1fr; align-items: start; gap: 26px; }
-  .home-mosi h2 { font-size: 48px; }
   .mosi-guia { grid-template-columns: 200px 1fr; gap: 26px; }
 }
 
@@ -2240,9 +2148,4 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .mosi-guia__texto h3 { font-size: 25px; }
   .mosi-guia__texto .btn { width: 100%; }
   .mosi-card__arte { max-width: 285px; }   /* 285x380, mantendo o 3:4 */
-  .home-mosi { padding: 64px 0; }
-  .home-mosi h2 { font-size: 38px; }
-  .home-mosi__dias { grid-template-columns: 1fr; }
-  .home-mosi__rodape { grid-template-columns: 1fr; padding: 24px 22px; }
-  .home-mosi__acoes .btn { width: 100%; }
 }

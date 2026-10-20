@@ -36,9 +36,11 @@ $paginas = @(
 
   # Materias da agenda: o botao "Mais informacoes" de cada card aponta para elas.
   @{ arquivo = 'agenda-abertura-mosi.html'; fonte = 'conteudo-agenda-abertura-mosi.html'; ativo = 'agenda' }
+  @{ arquivo = 'agenda-samba-do-quinto-sao-tome.html'; fonte = 'conteudo-agenda-samba-do-quinto-sao-tome.html'; ativo = 'agenda' }
 
   # Materias de noticias: o botao "Ler noticia" de cada card aponta para elas.
   @{ arquivo = 'noticia-mosi-faz-historia.html'; fonte = 'conteudo-noticia-mosi-faz-historia.html'; ativo = 'noticias' }
+  @{ arquivo = 'noticia-samba-do-quinto-sao-tome.html'; fonte = 'conteudo-noticia-samba-do-quinto-sao-tome.html'; ativo = 'noticias' }
 )
 
 foreach ($p in $paginas) {

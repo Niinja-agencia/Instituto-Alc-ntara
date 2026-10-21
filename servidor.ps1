@@ -33,6 +33,7 @@ $tipos = @{
   '.woff'  = 'font/woff'
   '.txt'   = 'text/plain; charset=utf-8'
   '.pdf'   = 'application/pdf'
+  '.mp4'   = 'video/mp4'
   '.docx'  = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 }
 

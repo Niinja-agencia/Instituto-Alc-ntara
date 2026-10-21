@@ -418,6 +418,10 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .card__midia { position: relative; aspect-ratio: 314 / 275; overflow: hidden; }
 .card__midia img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
 .card:hover .card__midia img { transform: scale(1.06); }
+/* Preserva todo o texto do cartaz vertical nas chamadas da campanha. */
+.card--campanha .card__midia { background: #ff5d20; }
+.card--campanha .card__midia img { object-fit: contain; }
+.card--campanha:hover .card__midia img { transform: none; }
 
 .card__selo {
   display: block;
@@ -1347,6 +1351,20 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   transition: var(--transicao);
 }
 .materia__texto a:hover { color: var(--amarelo-escuro); }
+
+.materia__doar { margin-top: 28px; }
+.materia__texto .materia__video { margin: 36px 0 44px; }
+.materia__video video {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin-inline: auto;
+  border-radius: 10px;
+  background: var(--preto);
+}
+.materia__video figcaption { text-align: center; }
+.materia__link-campanha { overflow-wrap: anywhere; }
 
 /* Fotos lado a lado com a mesma altura: cada figura cresce na proporção da
    sua imagem (--proporcao = largura / altura, declarada no HTML). */

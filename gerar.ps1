@@ -39,6 +39,7 @@ $paginas = @(
   @{ arquivo = 'agenda-samba-do-quinto-sao-tome.html'; fonte = 'conteudo-agenda-samba-do-quinto-sao-tome.html'; ativo = 'agenda' }
 
   # Materias de noticias: o botao "Ler noticia" de cada card aponta para elas.
+  @{ arquivo = 'noticia-campanha-samba-do-quinto.html'; fonte = 'conteudo-noticia-campanha-samba-do-quinto.html'; ativo = 'noticias' }
   @{ arquivo = 'noticia-mosi-faz-historia.html'; fonte = 'conteudo-noticia-mosi-faz-historia.html'; ativo = 'noticias' }
   @{ arquivo = 'noticia-samba-do-quinto-sao-tome.html'; fonte = 'conteudo-noticia-samba-do-quinto-sao-tome.html'; ativo = 'noticias' }
 )

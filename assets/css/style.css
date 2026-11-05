@@ -1366,6 +1366,26 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .materia__video figcaption { text-align: center; }
 .materia__link-campanha { overflow-wrap: anywhere; }
 
+/* Foto vertical no meio do texto: largura contida para não virar uma tela inteira. */
+.materia__texto .materia__foto-estudio { margin: 36px auto 44px; max-width: 480px; }
+.materia__foto-estudio img { width: 100%; border-radius: 10px; }
+.materia__foto-estudio figcaption { text-align: center; }
+
+/* Formulário de inscrição (Google Forms) incorporado no fim da matéria. */
+.materia__inscricao {
+  margin-top: 70px;
+  padding: 44px 40px;
+  background: var(--creme);
+  border-radius: 30px 0;
+  scroll-margin-top: 120px;
+}
+.materia__inscricao h2 { font-size: 28px; font-weight: 700; color: var(--preto); margin-bottom: 12px; }
+.materia__inscricao > p { font-size: 17px; line-height: 1.6; color: var(--cinza-texto); margin-bottom: 26px; }
+.materia__inscricao > p a { color: var(--preto); font-weight: 600; text-decoration: underline; text-decoration-color: var(--amarelo); text-decoration-thickness: 2px; }
+.materia__formulario { max-width: 760px; margin: 0 auto 28px; background: var(--branco); border-radius: 10px; overflow: hidden; }
+.materia__formulario iframe { display: block; width: 100%; height: 1500px; border: 0; }
+.materia__inscricao > .btn { display: flex; width: fit-content; margin-inline: auto; }
+
 /* Fotos lado a lado com a mesma altura: cada figura cresce na proporção da
    sua imagem (--proporcao = largura / altura, declarada no HTML). */
 .materia__galeria { display: flex; gap: 16px; margin: 36px 0 44px; }
@@ -1437,6 +1457,10 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
   .materia__galeria { flex-direction: column; }
   .materia__galeria figure { flex: none; }
   .materia__lateral { padding: 30px 22px; }
+  .materia__inscricao { margin-top: 50px; padding: 30px 16px; }
+  .materia__inscricao h2 { font-size: 24px; }
+  .materia__formulario iframe { height: 1800px; }
+  .materia__inscricao > .btn { width: 100%; justify-content: center; }
   .materia__acoes { margin-top: 44px; }
   .materia__acoes .btn { width: 100%; justify-content: center; }
 }
